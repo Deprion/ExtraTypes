@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CLDouble</name>
+    </assembly>
+    <members>
+        <member name="F:ExtraTypes.CLDouble.ArrayOfElements">
+            <summary>
+             Current array
+            </summary>
+        </member>
+        <member name="M:ExtraTypes.CLDouble.#ctor(System.Byte)">
+            <summary>
+            Instantiate array with given length
+            </summary>
+        </member>
+        <member name="M:ExtraTypes.CLDouble.#ctor(ExtraTypes.LDouble[])">
+            <summary>
+            Instantiate array
+            </summary>
+        </member>
+        <member name="M:ExtraTypes.CLDouble.AddValueInArray(ExtraTypes.LDouble,System.Int32)">
+            <summary>
+             Add a value to the array
+            </summary>
+        </member>
+        <member name="M:ExtraTypes.CLDouble.AddValue(System.Double)">
+            <summary>
+            Add value to element
+            </summary>
+            <param name="num1">Value</param>
+        </member>
+        <member name="M:ExtraTypes.CLDouble.AddValue(System.Double,System.Int32)">
+            <summary>
+            Add value to element started from index
+            </summary>
+            <param name="num1">Value</param>
+            <param name="index">Start Index</param>
+        </member>
+        <member name="M:ExtraTypes.CLDouble.SubstractValue(System.Double)">
+            <summary>
+            Substract value from element
+            </summary>
+            <param name="num1">Value</param>
+        </member>
+        <member name="M:ExtraTypes.CLDouble.SubstractValue(System.Double,System.Int32)">
+            <summary>
+            Substract value from element started from index
+            </summary>
+            <param name="num1">Value</param>
+            <param name="index">Index</param>
+        </member>
+    </members>
+</doc>

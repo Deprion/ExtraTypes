@@ -1,7 +1,7 @@
 ﻿namespace ExtraTypes
 {
     [System.Serializable]
-    public struct ldouble
+    public struct LDouble
     {
         ///<summary>
         /// Current value
@@ -23,13 +23,13 @@
         ///  Allow to lvl up, when limit reached
         /// </summary>
         public bool AllowToOverFlow;
-        public static ldouble operator +(ldouble num1, double num2)
+        public static LDouble operator +(LDouble num1, double num2)
         {
             if (num1.Current + num2 >= num1.Limit)
             {
                 if (!num1.AllowToOverFlow)
                 {
-                    return new ldouble(num1) { Current = num1.Limit, Limit = num1.Limit };
+                    return new LDouble(num1) { Current = num1.Limit, Limit = num1.Limit };
                 }
                 double limit = num1.Limit;
                 double current = num1.Current + num2 - limit;
@@ -39,20 +39,20 @@
                     current -= limit;
                     if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
                 }
-                return new ldouble(num1) { Current = current, Limit = limit };
+                return new LDouble(num1) { Current = current, Limit = limit };
             }
             else
             {
-                return new ldouble(num1) { Current = num1.Current + num2 };
+                return new LDouble(num1) { Current = num1.Current + num2 };
             }
         }
-        public static ldouble operator +(ldouble num1, ldouble num2)
+        public static LDouble operator +(LDouble num1, LDouble num2)
         {
             if (num1.Current + num2.Current >= num1.Limit)
             {
                 if (!num1.AllowToOverFlow)
                 {
-                    return new ldouble(num1) { Current = num1.Limit, Limit = num1.Limit };
+                    return new LDouble(num1) { Current = num1.Limit, Limit = num1.Limit };
                 }
                 double limit = num1.Limit;
                 double current = num1.Current + num2.Current - limit;
@@ -62,48 +62,42 @@
                     current -= limit;
                     if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
                 }
-                return new ldouble(num1) { Current = current, Limit = limit };
+                return new LDouble(num1) { Current = current, Limit = limit };
             }
             else
             {
-                return new ldouble(num1) { Current = num1.Current + num2.Current };
+                return new LDouble(num1) { Current = num1.Current + num2.Current };
             }
         }
-        public static ldouble operator -(ldouble num1, double num2)
+        public static LDouble operator -(LDouble num1, double num2)
         {
-            return new ldouble(num1) { Current = num1.Current - num2 };
-        }
-        public static ldouble operator -(ldouble num1, ldouble num2)
-        {
-            return new ldouble(num1) { Current = num1.Current - num2.Current };
-        }
-        /*public static ldouble operator *(ldouble num1, long num2)
-        {
-            if (num1.Current * num2 >= num1.Limit)
+            double current = num1.Current - num2;
+            double limit = num1.Limit;
+            while (current < 0)
             {
-                long limit = num1.Limit;
-                long current = num1.Current * num2 - limit;
-                if (!num1.AllowToOverFlow)
+                if (num1.IncreasableAmount != 0)
                 {
-                    return new ldouble(num1) { Current = num1.Limit, Limit = num1.Limit };
+                    num1.DecreaseLimit(ref limit);
                 }
-                else
-                {
-                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                    while (current >= limit)
-                    {
-                        current -= limit;
-                        if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                    }
-                    return new ldouble(num1) { Current = current, Limit = limit };
-                }
+                current += limit;
             }
-            else
+            return new LDouble(num1) { Current = current, Limit = limit };
+        }
+        public static LDouble operator -(LDouble num1, LDouble num2)
+        {
+            double current = num1.Current - num2.Current;
+            double limit = num1.Limit;
+            while (current < 0)
             {
-                return new ldouble(num1) { Current = num1.Current * num2 };
+                if (num1.IncreasableAmount != 0)
+                {
+                    num1.DecreaseLimit(ref limit);
+                }
+                current += limit;
             }
-        }*/
-        public static ldouble operator *(ldouble num1, double num2)
+            return new LDouble(num1) { Current = current, Limit = limit };
+        }
+        public static LDouble operator *(LDouble num1, double num2)
         {
             if ((long)(num1.Current * num2) >= num1.Limit)
             {
@@ -111,7 +105,7 @@
                 double current = num1.Current * num2 - limit;
                 if (!num1.AllowToOverFlow)
                 {
-                    return new ldouble(num1) { Current = num1.Limit, Limit = num1.Limit };
+                    return new LDouble(num1) { Current = num1.Limit, Limit = num1.Limit };
                 }
                 else
                 {
@@ -121,15 +115,15 @@
                         current -= limit;
                         if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
                     }
-                    return new ldouble(num1) { Current = current, Limit = limit };
+                    return new LDouble(num1) { Current = current, Limit = limit };
                 }
             }
             else
             {
-                return new ldouble(num1) { Current = (num1.Current * num2) };
+                return new LDouble(num1) { Current = (num1.Current * num2) };
             }
         }
-        public static ldouble operator *(ldouble num1, ldouble num2)
+        public static LDouble operator *(LDouble num1, LDouble num2)
         {
             if (num1.Current * num2.Current >= num1.Limit)
             {
@@ -137,7 +131,7 @@
                 double current = num1.Current * num2.Current - limit;
                 if (!num1.AllowToOverFlow)
                 {
-                    return new ldouble(num1) { Current = num1.Limit, Limit = num1.Limit };
+                    return new LDouble(num1) { Current = num1.Limit, Limit = num1.Limit };
                 }
                 else
                 {
@@ -147,63 +141,43 @@
                         current -= limit;
                         if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
                     }
-                    return new ldouble(num1) { Current = current, Limit = limit };
+                    return new LDouble(num1) { Current = current, Limit = limit };
                 }
             }
             else
             {
-                return new ldouble(num1) { Current = num1.Current * num2.Current };
+                return new LDouble(num1) { Current = num1.Current * num2.Current };
             }
         }
-        public static ldouble operator /(ldouble num1, double num2)
+        public static LDouble operator /(LDouble num1, double num2)
         {
-            return new ldouble(num1) { Current = num1.Current / num2 };
+            return new LDouble(num1) { Current = num1.Current / num2 };
         }
-        /*public static ldouble operator /(ldouble num1, long num2)
+        public static LDouble operator /(LDouble num1, LDouble num2)
         {
-            return new ldouble(num1) { Current = num1.Current / num2 };
-        }*/
-        public static ldouble operator /(ldouble num1, ldouble num2)
-        {
-            return new ldouble(num1) { Current = num1.Current / num2.Current };
+            return new LDouble(num1) { Current = num1.Current / num2.Current };
         }
-        public static ldouble operator ++(ldouble num1)
+        public static LDouble operator ++(LDouble num1)
         {
-            return new ldouble(num1 + 1);
+            return new LDouble(num1 + 1);
         }
-        public static ldouble operator --(ldouble num1)
+        public static LDouble operator --(LDouble num1)
         {
-            return new ldouble(num1 - 1);
+            return new LDouble(num1 - 1);
         }
-        /*public static bool operator >(ldouble num1, long num2)
-        {
-            return num1.Current > num2;
-        }
-        public static bool operator <(ldouble num1, long num2)
-        {
-            return num1.Current < num2;
-        }*/
-        public static bool operator >(ldouble num1, ldouble num2)
+        public static bool operator >(LDouble num1, LDouble num2)
         {
             return num1.Current > num2.Current;
         }
-        public static bool operator <(ldouble num1, ldouble num2)
+        public static bool operator <(LDouble num1, LDouble num2)
         {
             return num1.Current < num2.Current;
         }
-        /*public static bool operator >=(ldouble num1, long num2)
-        {
-            return num1.Current >= num2;
-        }
-        public static bool operator <=(ldouble num1, long num2)
-        {
-            return num1.Current <= num2;
-        }*/
-        public static bool operator >=(ldouble num1, ldouble num2)
+        public static bool operator >=(LDouble num1, LDouble num2)
         {
             return num1.Current >= num2.Current;
         }
-        public static bool operator <=(ldouble num1, ldouble num2)
+        public static bool operator <=(LDouble num1, LDouble num2)
         {
             return num1.Current <= num2.Current;
         }
@@ -218,7 +192,7 @@
             }
             else
             {
-                toReturn = toReturn * IncreasableAmount;
+                toReturn *= IncreasableAmount;
             }
         }
         ///<summary>
@@ -232,45 +206,114 @@
             }
             else
             {
-                toReturn = toReturn * IncreasableAmount;
+                toReturn *= IncreasableAmount;
+            }
+            return toReturn;
+        }
+        ///<summary>
+        /// Decrease Limit taking into account IsMultiplicator
+        ///</summary>
+        public void DecreaseLimit(ref double toReturn)
+        {
+            if (!IsMultiplicator)
+            {
+                toReturn -= IncreasableAmount;
+            }
+            else
+            {
+                toReturn /= IncreasableAmount;
+            }
+        }
+        ///<summary>
+        /// Decrease Limit taking into account IsMultiplicator
+        ///</summary>
+        public double DecreaseLimit(double toReturn)
+        {
+            if (!IsMultiplicator)
+            {
+                toReturn -= IncreasableAmount;
+            }
+            else
+            {
+                toReturn /= IncreasableAmount;
             }
             return toReturn;
         }
         /// <summary>
         /// Returns the amount of overflowing the limit
         /// </summary>
-        public double AmountOfOverFlow(ldouble num1, double num2)
+        public double AmountOfOverFlow(double num2)
         {
-            double current = num1.Current + num2;
+            double current = Current + num2;
             double toReturn = 0;
-            double limit = num1.Limit;
+            double limit = Limit;
             while (current >= limit)
             {
                 toReturn++;
                 current -= limit;
-                if (num1.IncreasableAmount != 0 && num1.AllowToOverFlow)
-                    num1.IncreaseLimit(ref limit);
+                if (IncreasableAmount != 0 && AllowToOverFlow)
+                    IncreaseLimit(ref limit);
             }
             return toReturn;
         }
         /// <summary>
         /// Returns the amount of overflowing the limit
         /// </summary>
-        public double AmountOfOverFlow(ldouble num1, ldouble num2)
+        public double AmountOfOverFlow(LDouble num2)
         {
-            double current = num1.Current + num2.Current;
+            double current = Current + num2.Current;
             double toReturn = 0;
-            double limit = num1.Limit;
+            double limit = Limit;
             while (current >= limit)
             {
                 toReturn++;
                 current -= limit;
-                if (num1.IncreasableAmount != 0 && num1.AllowToOverFlow)
-                    num1.IncreaseLimit(ref limit);
+                if (IncreasableAmount != 0 && AllowToOverFlow)
+                    IncreaseLimit(ref limit);
             }
             return toReturn;
         }
-        public ldouble(double current, double limit) : this()
+        /// <summary>
+        /// Returns the amount of deficit
+        /// </summary>
+        /// <param name="num2">Value</param>
+        public double AmountOfDeficit(double num2)
+        {
+            double current = Current - num2;
+            double toReturn = 0;
+            double limit = Limit;
+            while (current < 0)
+            {
+                toReturn++;
+                if (IncreasableAmount != 0)
+                {
+                    DecreaseLimit(ref limit);
+                }
+                current += limit;
+            }
+            return toReturn;
+        }
+        /// <summary>
+        /// Returns the amount of deficit
+        /// </summary>
+        /// <param name="num2">Value</param>
+        public double AmountOfDeficit(LDouble num2)
+        {
+            double current = Current - num2.Current;
+            double toReturn = 0;
+            double limit = Limit;
+            while (current < 0)
+            {
+                toReturn++;
+                if (IncreasableAmount != 0)
+                {
+                    DecreaseLimit(ref limit);
+                }
+                current += limit;
+            }
+            return toReturn;
+        }
+        public LDouble(double current, double limit) : this()
         {
             Limit = limit;
             Current = current;
@@ -278,7 +321,7 @@
             IncreasableAmount = 0;
             AllowToOverFlow = true;
         }
-        public ldouble(double current, double limit, bool isMultiplicator,
+        public LDouble(double current, double limit, bool isMultiplicator,
             double amount, bool isOverflow) : this()
         {
             Limit = limit;
@@ -287,7 +330,7 @@
             IncreasableAmount = amount;
             AllowToOverFlow = isOverflow;
         }
-        public ldouble(ldouble example) : this()
+        public LDouble(LDouble example) : this()
         {
             Limit = example.Limit;
             Current = example.Current;
