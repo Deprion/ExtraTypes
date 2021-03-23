@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>llong</name>
+        <name>LLong</name>
     </assembly>
     <members>
         <member name="F:ExtraTypes.LLong.Current">

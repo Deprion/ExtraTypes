@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\dllC#\ldouble\ldouble.xml</DocumentationFile>
+    <DocumentationFile>D:\dllC#\LDouble\LDouble.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>

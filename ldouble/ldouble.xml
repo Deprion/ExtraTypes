@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>ldouble</name>
+        <name>LDouble</name>
     </assembly>
     <members>
         <member name="F:ExtraTypes.LDouble.Current">

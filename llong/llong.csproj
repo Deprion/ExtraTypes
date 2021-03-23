@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\dllC#\llong\llong.xml</DocumentationFile>
+    <DocumentationFile>D:\dllC#\LLong\LLong.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
