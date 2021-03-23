@@ -8,6 +8,7 @@
         ///</summary>
         public LDouble[] ArrayOfElements;
         private byte sizeOfRound;
+        private double LimitSubstract;
         /// <summary>
         /// Instantiate array with given length
         /// </summary>
@@ -16,6 +17,7 @@
             length = length > 6 ? (byte)6 : length;
             ArrayOfElements = new LDouble[length];
             sizeOfRound = (byte)(length - 1);
+            LimitSubstract = 1 / System.Math.Pow(10, sizeOfRound);
             for (int i = 0; i < length; i++)
             {
                 if (i != length - 1)
@@ -45,6 +47,7 @@
                     break;
             }
             sizeOfRound = (byte)ArrayOfElements.Length;
+            LimitSubstract = 1 / System.Math.Pow(10, sizeOfRound);
         }
         ///<summary>
         /// Add a value to the array
@@ -77,26 +80,26 @@
         }
         private void FillLessValue(double num1, int index)
         {
-            switch (index >= 0)
+            if (index >= 0)
             {
-                case true:
-                    if (num1 - (ArrayOfElements[index].Limit - ArrayOfElements[index].Current) > 0)
-                    {
-                        num1 -= ArrayOfElements[index].Limit - ArrayOfElements[index].Current;
-                        ArrayOfElements[index].Current = ArrayOfElements[index].Limit - 1;
-                        FillLessValue(num1 * ArrayOfElements[index].Limit, --index);
-                    }
-                    else
-                    {
-                        ArrayOfElements[index].Current = System.Math.Round
-                            ((ArrayOfElements[index] + num1).Current, 3);
-                    }
-                    break;
+                if (num1 - (ArrayOfElements[index].Limit - ArrayOfElements[index].Current) > 0)
+                {
+                    num1 = num1 - (ArrayOfElements[index].Limit -
+                        (LimitSubstract * System.Math.Pow(10, sizeOfRound - index)) - ArrayOfElements[index].Current);
+                    ArrayOfElements[index].Current = ArrayOfElements[index].Limit - 
+                        (LimitSubstract * System.Math.Pow(10, sizeOfRound - index));
+                    FillLessValue(num1 * ArrayOfElements[index].Limit, --index);
+                }
+                else
+                {
+                    ArrayOfElements[index].Current = System.Math.Round
+                        ((ArrayOfElements[index] + num1).Current, sizeOfRound);
+                }
             }
         }
         private void AddValueLoop(double num1, int index)
         {
-            if (index < ArrayOfElements.Length - 1)
+            if (index < sizeOfRound)
             {
                 if (ArrayOfElements[index].AmountOfOverFlow(num1) >= 1)
                 {
@@ -105,21 +108,23 @@
                 else
                 {
                     ArrayOfElements[index].Current = System.Math.Round
-                        ((ArrayOfElements[index] + num1).Current, 3);
+                        ((ArrayOfElements[index] + num1).Current, sizeOfRound);
                 }
             }
             else
             {
                 if (ArrayOfElements[index].AmountOfOverFlow(num1) >= 1)
                 {
-                    num1 -= ArrayOfElements[index].Limit - ArrayOfElements[index].Current;
-                    ArrayOfElements[index].Current = ArrayOfElements[index].Limit - 1;
+                    num1 = num1 - (ArrayOfElements[index].Limit - 
+                        (LimitSubstract * System.Math.Pow(10, sizeOfRound - index)) - ArrayOfElements[index].Current);
+                    ArrayOfElements[index].Current = ArrayOfElements[index].Limit -
+                        (LimitSubstract * System.Math.Pow(10, sizeOfRound - index));
                     FillLessValue(num1 * ArrayOfElements[index].Limit, --index);
                 }
                 else
                 {
                     ArrayOfElements[index].Current = System.Math.Round
-                        ((ArrayOfElements[index] + num1).Current, 3);
+                        ((ArrayOfElements[index] + num1).Current, sizeOfRound);
                 }
             }
         }
@@ -133,13 +138,13 @@
                 }
                 else
                 {
-                    ArrayOfElements[index].Current = System.Math.Round((ArrayOfElements[index] - num1).Current, 3);
+                    ArrayOfElements[index].Current = System.Math.Round((ArrayOfElements[index] - num1).Current, sizeOfRound);
                     if (ArrayOfElements[index].Current < 1)
                     {
                         double temp = ArrayOfElements[index].Current;
                         ArrayOfElements[index].Current = 0;
                         ArrayOfElements[index - 1].Current = System.Math.Round
-                            ((ArrayOfElements[index - 1] + temp * ArrayOfElements[index].Limit).Current, 3);
+                            ((ArrayOfElements[index - 1] + temp * ArrayOfElements[index].Limit).Current, sizeOfRound);
                     }
                     return true;
                 }
@@ -161,7 +166,7 @@
             }
             else
             {
-                ArrayOfElements[0].Current = System.Math.Round((ArrayOfElements[0] + num1).Current, 3);
+                ArrayOfElements[0].Current = System.Math.Round((ArrayOfElements[0] + num1).Current, sizeOfRound);
             }
         }
         /// <summary>
@@ -177,7 +182,7 @@
             }
             else
             {
-                ArrayOfElements[index].Current = System.Math.Round((ArrayOfElements[index] + num1).Current, 3);
+                ArrayOfElements[index].Current = System.Math.Round((ArrayOfElements[index] + num1).Current, sizeOfRound);
             }
         }
         /// <summary>
@@ -192,7 +197,7 @@
             }
             else
             {
-                ArrayOfElements[0].Current = System.Math.Round((ArrayOfElements[0] - num1).Current, 3);
+                ArrayOfElements[0].Current = System.Math.Round((ArrayOfElements[0] - num1).Current, sizeOfRound);
                 return true;
             }
         }
@@ -209,7 +214,7 @@
             }
             else
             {
-                ArrayOfElements[index].Current = System.Math.Round((ArrayOfElements[index] - num1).Current, 3);
+                ArrayOfElements[index].Current = System.Math.Round((ArrayOfElements[index] - num1).Current, sizeOfRound);
                 return true;
             }
         }
