@@ -15,7 +15,7 @@
         /// </summary>
         public CLDouble(byte length) : this()
         {
-            length = length > 6 ? (byte)6 : length;
+            length = length > 6 ? (byte)6 : length = length == 1 ? (byte)2 : length;
             ArrayOfElements = new LDouble[length];
             sizeOfRound = (byte)(length - 1);
             LimitSubstract = 1 / Math.Pow(10, sizeOfRound);
@@ -37,15 +37,15 @@
         /// </summary>
         public CLDouble(LDouble[] array) : this()
         {
-            switch (array.Length > 6)
+            if (array.Length > 6)
             {
-                case true:
-                    Array.Resize(ref array, 6);
-                    ArrayOfElements = array;
-                    break;
-                case false:
-                    ArrayOfElements = array;
-                    break;
+                Array.Resize(ref array, 6);
+                ArrayOfElements = array;
+            }
+            else if (array.Length == 1)
+            {
+                Array.Resize(ref array, 2);
+                ArrayOfElements = array;
             }
             sizeOfRound = (byte)ArrayOfElements.Length;
             LimitSubstract = 1 / Math.Pow(10, sizeOfRound);
@@ -117,14 +117,14 @@
                 if (ArrayOfElements[index].AmountOfOverFlow(num1) >= 1)
                 {
                     num1 = num1 - (ArrayOfElements[index].Limit - 
-                        (LimitSubstract * System.Math.Pow(10, sizeOfRound - index)) - ArrayOfElements[index].Current);
+                        (LimitSubstract * Math.Pow(10, sizeOfRound - index)) - ArrayOfElements[index].Current);
                     ArrayOfElements[index].Current = ArrayOfElements[index].Limit -
-                        (LimitSubstract * System.Math.Pow(10, sizeOfRound - index));
+                        (LimitSubstract * Math.Pow(10, sizeOfRound - index));
                     FillLessValue(num1 * ArrayOfElements[index].Limit, --index);
                 }
                 else
                 {
-                    ArrayOfElements[index].Current = System.Math.Round
+                    ArrayOfElements[index].Current = Math.Round
                         ((ArrayOfElements[index] + num1).Current, sizeOfRound);
                 }
             }
