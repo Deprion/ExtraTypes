@@ -227,6 +227,46 @@
         {
             return num1.Current <= num2.Current;
         }
+        public override string ToString()
+        {
+            return Current.ToString();
+        }
+        /// <summary>
+        /// increase value with return, where "true" is overflow
+        /// </summary>
+        /// <param name="num2">Value</param>
+        /// <returns></returns>
+        public bool IncreaseCurrent(long num2)
+        {
+            if (AmountOfOverFlow(num2) > 0)
+            {
+                this += num2;
+                return true;
+            }
+            else
+            {
+                this += num2;
+                return false;
+            }
+        }
+        /// <summary>
+        /// increase value with return, where "true" is overflow
+        /// </summary>
+        /// <param name="num2">Value</param>
+        /// <returns></returns>
+        public bool IncreaseCurrent(LLong num2)
+        {
+            if (AmountOfOverFlow(num2) > 0)
+            {
+                this += num2;
+                return true;
+            }
+            else
+            {
+                this += num2;
+                return false;
+            }
+        }
         ///<summary>
         /// Increase Limit taking into account IsMultiplicator
         ///</summary>
@@ -292,7 +332,7 @@
         {
             long current = Current + num2;
             long toReturn = 0;
-            long limit = Limit;
+            long limit = Limit == 0 ? 1 : Limit;
             while (current >= limit)
             {
                 toReturn++;
@@ -309,7 +349,7 @@
         {
             long current = Current + num2.Current;
             long toReturn = 0;
-            long limit = Limit;
+            long limit = Limit == 0 ? 1 : Limit;
             while (current >= limit)
             {
                 toReturn++;
@@ -327,7 +367,7 @@
         {
             long current = Current - num2;
             long toReturn = 0;
-            long limit = Limit;
+            long limit = Limit == 0 ? 1 : Limit;
             while (current < 0)
             {
                 toReturn++;
@@ -347,7 +387,7 @@
         {
             long current = Current - num2.Current;
             long toReturn = 0;
-            long limit = Limit;
+            long limit = Limit == 0 ? 1 : Limit;
             while (current < 0)
             {
                 toReturn++;
@@ -359,6 +399,11 @@
             }
             return toReturn;
         }
+        /// <summary>
+        /// Standart constructor
+        /// </summary>
+        /// <param name="current">Current</param>
+        /// <param name="limit">Limit</param>
         public LLong(long current, long limit) : this()
         {
             Limit = limit;
@@ -367,6 +412,14 @@
             IncreasableAmount = 0;
             AllowToOverFlow = true;
         }
+        /// <summary>
+        /// Extended constructor
+        /// </summary>
+        /// <param name="current">Current</param>
+        /// <param name="limit">Limit</param>
+        /// <param name="isMultiplicator">IsMultiplicator</param>
+        /// <param name="amount">IncreasableAmount, 0 means don't increase limit</param>
+        /// <param name="isOverflow">IsOverflow</param>
         public LLong(long current, long limit, bool isMultiplicator,
             double amount, bool isOverflow) : this()
         {
@@ -376,6 +429,10 @@
             IncreasableAmount = amount;
             AllowToOverFlow = isOverflow;
         }
+        /// <summary>
+        /// Standart constructor
+        /// </summary>
+        /// <param name="example">LDouble value</param>
         public LLong(LLong example) : this()
         {
             Limit = example.Limit;

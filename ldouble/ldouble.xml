@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>ldouble</name>
+        <name>LDouble</name>
     </assembly>
     <members>
         <member name="F:ExtraTypes.LDouble.Current">
@@ -28,6 +28,20 @@
             <summary>
              Allow to lvl up, when limit reached
             </summary>
+        </member>
+        <member name="M:ExtraTypes.LDouble.IncreaseCurrent(System.Double)">
+            <summary>
+            increase value with return, where "true" is overflow
+            </summary>
+            <param name="num2">Value</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LDouble.IncreaseCurrent(ExtraTypes.LDouble)">
+            <summary>
+            increase value with return, where "true" is overflow
+            </summary>
+            <param name="num2">Value</param>
+            <returns></returns>
         </member>
         <member name="M:ExtraTypes.LDouble.IncreaseLimit(System.Double@)">
             <summary>
@@ -70,6 +84,29 @@
             Returns the amount of deficit
             </summary>
             <param name="num2">Value</param>
+        </member>
+        <member name="M:ExtraTypes.LDouble.#ctor(System.Double,System.Double)">
+            <summary>
+            Standart constructor
+            </summary>
+            <param name="current">Current</param>
+            <param name="limit">Limit</param>
+        </member>
+        <member name="M:ExtraTypes.LDouble.#ctor(System.Double,System.Double,System.Boolean,System.Double,System.Boolean)">
+            <summary>
+            Extended constructor
+            </summary>
+            <param name="current">Current</param>
+            <param name="limit">Limit</param>
+            <param name="isMultiplicator">IsMultiplicator</param>
+            <param name="amount">IncreasableAmount, 0 means don't increase limit</param>
+            <param name="isOverflow">IsOverflow</param>
+        </member>
+        <member name="M:ExtraTypes.LDouble.#ctor(ExtraTypes.LDouble)">
+            <summary>
+            Standart constructor
+            </summary>
+            <param name="example">LDouble value</param>
         </member>
     </members>
 </doc>

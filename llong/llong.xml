@@ -29,6 +29,20 @@
              Allow to lvl up, when limit reached
             </summary>
         </member>
+        <member name="M:ExtraTypes.LLong.IncreaseCurrent(System.Int64)">
+            <summary>
+            increase value with return, where "true" is overflow
+            </summary>
+            <param name="num2">Value</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LLong.IncreaseCurrent(ExtraTypes.LLong)">
+            <summary>
+            increase value with return, where "true" is overflow
+            </summary>
+            <param name="num2">Value</param>
+            <returns></returns>
+        </member>
         <member name="M:ExtraTypes.LLong.IncreaseLimit(System.Int64@)">
             <summary>
              Increase Limit taking into account IsMultiplicator
@@ -70,6 +84,29 @@
             Returns the amount of deficit
             </summary>
             <param name="num2">Value</param>
+        </member>
+        <member name="M:ExtraTypes.LLong.#ctor(System.Int64,System.Int64)">
+            <summary>
+            Standart constructor
+            </summary>
+            <param name="current">Current</param>
+            <param name="limit">Limit</param>
+        </member>
+        <member name="M:ExtraTypes.LLong.#ctor(System.Int64,System.Int64,System.Boolean,System.Double,System.Boolean)">
+            <summary>
+            Extended constructor
+            </summary>
+            <param name="current">Current</param>
+            <param name="limit">Limit</param>
+            <param name="isMultiplicator">IsMultiplicator</param>
+            <param name="amount">IncreasableAmount, 0 means don't increase limit</param>
+            <param name="isOverflow">IsOverflow</param>
+        </member>
+        <member name="M:ExtraTypes.LLong.#ctor(ExtraTypes.LLong)">
+            <summary>
+            Standart constructor
+            </summary>
+            <param name="example">LDouble value</param>
         </member>
     </members>
 </doc>
