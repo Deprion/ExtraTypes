@@ -280,36 +280,82 @@
             return toReturn;
         }
         /// <summary>
+        /// Returns bool value of overflowing
+        /// </summary>
+        /// <param name="num">Value</param>
+        /// <returns></returns>
+        public bool IsOverflow(double num)
+        {
+            if (Current + num >= Limit) return true;
+            else return false;
+        }
+        /// <summary>
+        /// Returns bool value of overflowing
+        /// </summary>
+        /// <param name="num">Value</param>
+        /// <returns></returns>
+        public bool IsOverflow(LDouble num)
+        {
+            if (Current + num.Current >= Limit) return true;
+            else return false;
+        }
+        /// <summary>
         /// Returns the amount of overflowing the limit
         /// </summary>
+        /// <param name="num2">Value</param>
+        /// <returns></returns>
         public double AmountOfOverFlow(double num2)
         {
             double current = Current + num2;
             double toReturn = 0;
             double limit = Limit == 0 ? 1 : Limit;
-            while (current >= limit)
+            if (current >= limit && !AllowToOverFlow) return 1;
+            if (IncreasableAmount != 0)
             {
-                toReturn++;
-                current -= limit;
-                if (IncreasableAmount != 0 && AllowToOverFlow)
+                while (current >= limit)
+                {
+                    toReturn++;
+                    current -= limit;
                     IncreaseLimit(ref limit);
+                }
+            }
+            else
+            {
+                while (current >= limit)
+                {
+                    toReturn++;
+                    current -= limit;
+                }
             }
             return toReturn;
         }
         /// <summary>
         /// Returns the amount of overflowing the limit
         /// </summary>
+        /// <param name="num2">Value</param>
+        /// <returns></returns>
         public double AmountOfOverFlow(LDouble num2)
         {
             double current = Current + num2.Current;
             double toReturn = 0;
             double limit = Limit == 0 ? 1 : Limit;
-            while (current >= limit)
+            if (current >= limit && !AllowToOverFlow) return 1;
+            if (IncreasableAmount != 0)
             {
-                toReturn++;
-                current -= limit;
-                if (IncreasableAmount != 0 && AllowToOverFlow)
+                while (current >= limit)
+                {
+                    toReturn++;
+                    current -= limit;
                     IncreaseLimit(ref limit);
+                }
+            }
+            else
+            {
+                while (current >= limit)
+                {
+                    toReturn++;
+                    current -= limit;
+                }
             }
             return toReturn;
         }
@@ -322,14 +368,22 @@
             double current = Current - num2;
             double toReturn = 0;
             double limit = Limit == 0 ? 1 : Limit;
-            while (current < 0)
+            if (IncreasableAmount != 0)
             {
-                toReturn++;
-                if (IncreasableAmount != 0)
+                while (current < 0)
                 {
+                    toReturn++;
                     DecreaseLimit(ref limit);
+                    current += limit;
                 }
-                current += limit;
+            }
+            else
+            {
+                while (current < 0)
+                {
+                    toReturn++;
+                    current += limit;
+                }
             }
             return toReturn;
         }
@@ -342,14 +396,22 @@
             double current = Current - num2.Current;
             double toReturn = 0;
             double limit = Limit == 0 ? 1 : Limit;
-            while (current < 0)
+            if (IncreasableAmount != 0)
             {
-                toReturn++;
-                if (IncreasableAmount != 0)
+                while (current < 0)
                 {
+                    toReturn++;
                     DecreaseLimit(ref limit);
+                    current += limit;
                 }
-                current += limit;
+            }
+            else
+            {
+                while (current < 0)
+                {
+                    toReturn++;
+                    current += limit;
+                }
             }
             return toReturn;
         }

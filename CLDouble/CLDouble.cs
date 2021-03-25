@@ -15,7 +15,7 @@
         /// </summary>
         public CLDouble(byte length) : this()
         {
-            length = length > 6 ? (byte)6 : length = length == 1 ? (byte)2 : length;
+            //length = length > 6 ? (byte)6 : length = length == 1 ? (byte)2 : length;
             ArrayOfElements = new LDouble[length];
             sizeOfRound = (byte)(length - 1);
             LimitSubstract = 1 / Math.Pow(10, sizeOfRound);

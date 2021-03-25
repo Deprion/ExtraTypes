@@ -63,15 +63,33 @@
              Decrease Limit taking into account IsMultiplicator
             </summary>
         </member>
+        <member name="M:ExtraTypes.LLong.IsOverflow(System.Int64)">
+            <summary>
+            Returns bool value of overflowing
+            </summary>
+            <param name="num">Value</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LLong.IsOverflow(ExtraTypes.LLong)">
+            <summary>
+            Returns bool value of overflowing
+            </summary>
+            <param name="num">Value</param>
+            <returns></returns>
+        </member>
         <member name="M:ExtraTypes.LLong.AmountOfOverFlow(System.Int64)">
             <summary>
             Returns the amount of overflowing the limit
             </summary>
+            <param name="num2">Value</param>
+            <returns></returns>
         </member>
         <member name="M:ExtraTypes.LLong.AmountOfOverFlow(ExtraTypes.LLong)">
             <summary>
             Returns the amount of overflowing the limit
             </summary>
+            <param name="num2">Value</param>
+            <returns></returns>
         </member>
         <member name="M:ExtraTypes.LLong.AmountOfDeficit(System.Int64)">
             <summary>
