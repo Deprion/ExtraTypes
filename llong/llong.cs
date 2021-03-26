@@ -333,7 +333,7 @@
         public bool IsOverflow(long num)
         {
             if (Current + num >= Limit) return true;
-            else return false;
+            return false;
         }
         /// <summary>
         /// Returns bool value of overflowing
@@ -343,7 +343,7 @@
         public bool IsOverflow(LLong num)
         {
             if (Current + num.Current >= Limit) return true;
-            else return false;
+            return false;
         }
         /// <summary>
         /// Returns the amount of overflowing the limit
@@ -404,6 +404,26 @@
                 }
             }
             return toReturn;
+        }
+        /// <summary>
+        /// Returns bool value of deficit
+        /// </summary>
+        /// <param name="num2">Value</param>
+        /// <returns></returns>
+        public bool IsDeficit(long num2)
+        {
+            if (Current - num2 < 0) return true;
+            return false;
+        }
+        /// <summary>
+        /// Returns bool value of deficit
+        /// </summary>
+        /// <param name="num2">Value</param>
+        /// <returns></returns>
+        public bool IsDeficit(LLong num2)
+        {
+            if (Current - num2.Current < 0) return true;
+            return false;
         }
         /// <summary>
         /// Returns the amount of deficit

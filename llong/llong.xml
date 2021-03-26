@@ -91,6 +91,20 @@
             <param name="num2">Value</param>
             <returns></returns>
         </member>
+        <member name="M:ExtraTypes.LLong.IsDeficit(System.Int64)">
+            <summary>
+            Returns bool value of deficit
+            </summary>
+            <param name="num2">Value</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LLong.IsDeficit(ExtraTypes.LLong)">
+            <summary>
+            Returns bool value of deficit
+            </summary>
+            <param name="num2">Value</param>
+            <returns></returns>
+        </member>
         <member name="M:ExtraTypes.LLong.AmountOfDeficit(System.Int64)">
             <summary>
             Returns the amount of deficit

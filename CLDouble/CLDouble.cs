@@ -15,7 +15,7 @@
         /// </summary>
         public CLDouble(byte length) : this()
         {
-            //length = length > 6 ? (byte)6 : length = length == 1 ? (byte)2 : length;
+            length = length > 6 ? (byte)6 : length = length == 1 ? (byte)2 : length;
             ArrayOfElements = new LDouble[length];
             sizeOfRound = (byte)(length - 1);
             LimitSubstract = 1 / Math.Pow(10, sizeOfRound);
@@ -102,7 +102,7 @@
         {
             if (index < sizeOfRound)
             {
-                if (ArrayOfElements[index].AmountOfOverFlow(num1) >= 1)
+                if (ArrayOfElements[index].IsOverflow(num1))
                 {
                     AddValueLoop(num1 / ArrayOfElements[index].Limit, ++index);
                 }
@@ -114,7 +114,7 @@
             }
             else
             {
-                if (ArrayOfElements[index].AmountOfOverFlow(num1) >= 1)
+                if (ArrayOfElements[index].IsOverflow(num1))
                 {
                     num1 = num1 - (ArrayOfElements[index].Limit - 
                         (LimitSubstract * Math.Pow(10, sizeOfRound - index)) - ArrayOfElements[index].Current);
@@ -133,7 +133,7 @@
         {
             if (index < ArrayOfElements.Length)
             {
-                if (ArrayOfElements[index].AmountOfDeficit(num1) >= 1)
+                if (ArrayOfElements[index].IsDeficit(num1))
                 {
                     return SubstractValueLoop(num1 / ArrayOfElements[index].Limit, ++index);
                 }
@@ -161,7 +161,7 @@
         /// <param name="num1">Value</param>
         public void AddValue(double num1)
         {
-            if (ArrayOfElements[0].AmountOfOverFlow(num1) >= 1)
+            if (ArrayOfElements[0].IsOverflow(num1))
             {
                 AddValueLoop(num1 / ArrayOfElements[0].Limit, 1);
             }
@@ -177,7 +177,7 @@
         /// <param name="index">Start Index</param>
         public void AddValue(double num1, int index)
         {
-            if (ArrayOfElements[index].AmountOfOverFlow(num1) >= 1)
+            if (ArrayOfElements[index].IsOverflow(num1))
             {
                 AddValueLoop(num1 / ArrayOfElements[index].Limit, ++index);
             }
@@ -192,7 +192,7 @@
         /// <param name="num1">Value</param>
         public bool SubstractValue(double num1)
         {
-            if (ArrayOfElements[0].AmountOfDeficit(num1) >= 1)
+            if (ArrayOfElements[0].IsDeficit(num1))
             {
                 return SubstractValueLoop(num1 / ArrayOfElements[0].Limit, 1);
             }
@@ -209,7 +209,7 @@
         /// <param name="index">Index</param>
         public bool SubstractValue(double num1, int index)
         {
-            if (ArrayOfElements[index].AmountOfDeficit(num1) >= 1)
+            if (ArrayOfElements[index].IsDeficit(num1))
             {
                 return SubstractValueLoop(num1 / ArrayOfElements[index].Limit, ++index);
             }
