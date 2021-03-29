@@ -129,6 +129,42 @@
                 }
             }
         }
+        private double MultiplyValue(double num1, int index) 
+        {
+            for (int i = 0; i < index; i++)
+            { 
+                num1 = Math.Round(num1 * ArrayOfElements[i].Limit, sizeOfRound);
+            }
+            if (index == 0) num1 = Math.Round(num1 * ArrayOfElements[0].Limit, sizeOfRound);
+            return num1;
+        }
+        private void SubstractLessValue(double num1, int index)
+        {
+            if (index >= 0)
+            {
+                if (ArrayOfElements[index].IsDeficit(num1))
+                {
+                    num1 -= MultiplyValue(ArrayOfElements[index].Current, index);
+                    ArrayOfElements[index].Current = 0;
+                    SubstractLessValue(num1, --index);
+                }
+                else
+                {
+                    ArrayOfElements[index] -= num1;
+                }
+            }
+        }
+        private bool isSubstractLessAvailable(ref double num1)
+        {
+            double available = 0;
+            for (int i = sizeOfRound ; i >= 0; i--)
+            {
+                available += MultiplyValue(ArrayOfElements[i].Current, i);
+                num1 *= ArrayOfElements[i].Limit;
+            }
+            if (available >= num1) return true;
+            return false;
+        }
         private bool SubstractValueLoop(double num1, int index)
         {
             if (index < ArrayOfElements.Length)
@@ -150,10 +186,11 @@
                     return true;
                 }
             }
-            else
+            if (isSubstractLessAvailable(ref num1))
             {
-                return false;
+                SubstractLessValue(num1, --index);
             }
+            return false;
         }
         /// <summary>
         /// Add value to element
