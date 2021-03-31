@@ -50,5 +50,11 @@
             <param name="num1">Value</param>
             <param name="index">Index</param>
         </member>
+        <member name="M:ExtraTypes.CLDouble.ToString">
+            <summary>
+            Returns a string representing the current object
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

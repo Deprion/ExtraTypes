@@ -1,7 +1,7 @@
 ﻿namespace ExtraTypes
 {
     [System.Serializable]
-    public struct LDouble
+    public class LDouble
     {
         ///<summary>
         /// Current value
@@ -48,26 +48,7 @@
         }
         public static LDouble operator +(LDouble num1, LDouble num2)
         {
-            if (num1.Current + num2.Current >= num1.Limit)
-            {
-                if (!num1.AllowToOverFlow)
-                {
-                    return new LDouble(num1) { Current = num1.Limit, Limit = num1.Limit };
-                }
-                double limit = num1.Limit;
-                double current = num1.Current + num2.Current - limit;
-                if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                while (current >= limit)
-                {
-                    current -= limit;
-                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                }
-                return new LDouble(num1) { Current = current, Limit = limit };
-            }
-            else
-            {
-                return new LDouble(num1) { Current = num1.Current + num2.Current };
-            }
+            return Addition(num1, num2);
         }
         public static LDouble operator -(LDouble num1, double num2)
         {
@@ -181,43 +162,105 @@
         {
             return num1.Current <= num2.Current;
         }
+        /// <summary>
+        /// Returns a string representing the current object.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Current.ToString();
         }
         /// <summary>
+        /// Instead of operator "+"
+        /// </summary>
+        /// <param name="num1">First number</param>
+        /// <param name="num2">Second number</param>
+        /// <returns></returns>
+        private static LDouble Addition(LDouble num1, double num2)
+        {
+            if (num1.Current + num2 >= num1.Limit)
+            {
+                if (!num1.AllowToOverFlow)
+                {
+                    return new LDouble(num1) { Current = num1.Limit, Limit = num1.Limit };
+                }
+                double limit = num1.Limit;
+                double current = num1.Current + num2 - limit;
+                if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
+                while (current >= limit)
+                {
+                    current -= limit;
+                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
+                }
+                return new LDouble(num1) { Current = current, Limit = limit };
+            }
+            else
+            {
+                return new LDouble(num1) { Current = num1.Current + num2 };
+            }
+        }
+        /// <summary>
+        /// Instead of operator "+"
+        /// </summary>
+        /// <param name="num1">First number</param>
+        /// <param name="num2">Second number</param>
+        /// <returns></returns>
+        private static LDouble Addition(LDouble num1, LDouble num2)
+        {
+            if (num1.Current + num2.Current >= num1.Limit)
+            {
+                if (!num1.AllowToOverFlow)
+                {
+                    return new LDouble(num1) { Current = num1.Limit, Limit = num1.Limit };
+                }
+                double limit = num1.Limit;
+                double current = num1.Current + num2.Current - limit;
+                if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
+                while (current >= limit)
+                {
+                    current -= limit;
+                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
+                }
+                return new LDouble(num1) { Current = current, Limit = limit };
+            }
+            else
+            {
+                return new LDouble(num1) { Current = num1.Current + num2.Current };
+            }
+        }
+        /// <summary>
         /// increase value with return, where "true" is overflow
         /// </summary>
-        /// <param name="num2">Value</param>
+        /// <param name="num">Value</param>
         /// <returns></returns>
-        public bool IncreaseCurrent(double num2)
+        public bool IncreaseCurrent(double num)
         {
-            if (AmountOfOverFlow(num2) > 0)
+            if (IsOverflow(num))
             {
-                this += num2;
+                Addition(this, num);
                 return true;
             }
             else
             {
-                this += num2;
+                Current += num;
                 return false;
             }
         }
         /// <summary>
         /// increase value with return, where "true" is overflow
         /// </summary>
-        /// <param name="num2">Value</param>
+        /// <param name="num">Value</param>
         /// <returns></returns>
-        public bool IncreaseCurrent(LDouble num2)
+        public bool IncreaseCurrent(LDouble num)
         {
-            if (AmountOfOverFlow(num2) > 0)
+            if (IsOverflow(num))
             {
-                this += num2;
+                Addition(this, num);
                 return true;
             }
             else
             {
-                this += num2;
+                Current += num.Current;
                 return false;
             }
         }
@@ -436,11 +479,22 @@
             return toReturn;
         }
         /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public LDouble()
+        {
+            Limit = 10;
+            Current = 0;
+            IsMultiplicator = false;
+            IncreasableAmount = 0;
+            AllowToOverFlow = true;
+        }
+        /// <summary>
         /// Standart constructor
         /// </summary>
         /// <param name="current">Current</param>
         /// <param name="limit">Limit</param>
-        public LDouble(double current, double limit) : this()
+        public LDouble(double current, double limit)
         {
             Limit = limit;
             Current = current;
@@ -457,7 +511,7 @@
         /// <param name="amount">IncreasableAmount, 0 means don't increase limit</param>
         /// <param name="isOverflow">IsOverflow</param>
         public LDouble(double current, double limit, bool isMultiplicator,
-            double amount, bool isOverflow) : this()
+            double amount, bool isOverflow)
         {
             Limit = limit;
             Current = current;
@@ -469,7 +523,7 @@
         /// Standart constructor
         /// </summary>
         /// <param name="example">LDouble value</param>
-        public LDouble(LDouble example) : this()
+        public LDouble(LDouble example)
         {
             Limit = example.Limit;
             Current = example.Current;

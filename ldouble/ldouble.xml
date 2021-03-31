@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>ldouble</name>
+        <name>LDouble</name>
     </assembly>
     <members>
         <member name="F:ExtraTypes.LDouble.Current">
@@ -29,18 +29,40 @@
              Allow to lvl up, when limit reached
             </summary>
         </member>
+        <member name="M:ExtraTypes.LDouble.ToString">
+            <summary>
+            Returns a string representing the current object.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LDouble.Addition(ExtraTypes.LDouble,System.Double)">
+            <summary>
+            Instead of operator "+"
+            </summary>
+            <param name="num1">First number</param>
+            <param name="num2">Second number</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LDouble.Addition(ExtraTypes.LDouble,ExtraTypes.LDouble)">
+            <summary>
+            Instead of operator "+"
+            </summary>
+            <param name="num1">First number</param>
+            <param name="num2">Second number</param>
+            <returns></returns>
+        </member>
         <member name="M:ExtraTypes.LDouble.IncreaseCurrent(System.Double)">
             <summary>
             increase value with return, where "true" is overflow
             </summary>
-            <param name="num2">Value</param>
+            <param name="num">Value</param>
             <returns></returns>
         </member>
         <member name="M:ExtraTypes.LDouble.IncreaseCurrent(ExtraTypes.LDouble)">
             <summary>
             increase value with return, where "true" is overflow
             </summary>
-            <param name="num2">Value</param>
+            <param name="num">Value</param>
             <returns></returns>
         </member>
         <member name="M:ExtraTypes.LDouble.IncreaseLimit(System.Double@)">
@@ -116,6 +138,11 @@
             Returns the amount of deficit
             </summary>
             <param name="num2">Value</param>
+        </member>
+        <member name="M:ExtraTypes.LDouble.#ctor">
+            <summary>
+            Empty constructor
+            </summary>
         </member>
         <member name="M:ExtraTypes.LDouble.#ctor(System.Double,System.Double)">
             <summary>

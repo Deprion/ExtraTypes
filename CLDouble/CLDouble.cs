@@ -2,18 +2,20 @@
 {
     using System;
     [Serializable]
-    public struct CLDouble
+    public class CLDouble
     {
         ///<summary>
         /// Current array
         ///</summary>
         public LDouble[] ArrayOfElements;
+        // Length of array - 1
         private byte sizeOfRound;
+        // Number of decimal places
         private double LimitSubstract;
         /// <summary>
         /// Instantiate array with given length
         /// </summary>
-        public CLDouble(byte length) : this()
+        public CLDouble(byte length)
         {
             length = length > 6 ? (byte)6 : length = length == 1 ? (byte)2 : length;
             ArrayOfElements = new LDouble[length];
@@ -23,11 +25,13 @@
             {
                 if (i != length - 1)
                 {
+                    //ArrayOfElements[i] = new LDouble();
                     ArrayOfElements[i].Limit = 10;
                     ArrayOfElements[i].AllowToOverFlow = true;
                 }
                 else
                 {
+                    //ArrayOfElements[i] = new LDouble();
                     ArrayOfElements[i].Limit = 10;
                 }
             }
@@ -35,7 +39,7 @@
         /// <summary>
         /// Instantiate array
         /// </summary>
-        public CLDouble(LDouble[] array) : this()
+        public CLDouble(LDouble[] array)
         {
             if (array.Length > 6)
             {
@@ -118,6 +122,7 @@
                 {
                     num1 = num1 - (ArrayOfElements[index].Limit - 
                         (LimitSubstract * Math.Pow(10, sizeOfRound - index)) - ArrayOfElements[index].Current);
+
                     ArrayOfElements[index].Current = ArrayOfElements[index].Limit -
                         (LimitSubstract * Math.Pow(10, sizeOfRound - index));
                     FillLessValue(num1 * ArrayOfElements[index].Limit, --index);
@@ -131,11 +136,11 @@
         }
         private double MultiplyValue(double num1, int index) 
         {
-            for (int i = 0; i < index; i++)
-            { 
-                num1 = Math.Round(num1 * ArrayOfElements[i].Limit, sizeOfRound);
+            for (int i = index; i > 0; --i)
+            {
+                num1 = Math.Round(num1 * ArrayOfElements[i].Limit,
+                    sizeOfRound - (sizeOfRound - i));
             }
-            if (index == 0) num1 = Math.Round(num1 * ArrayOfElements[0].Limit, sizeOfRound);
             return num1;
         }
         private void SubstractLessValue(double num1, int index)
@@ -162,6 +167,7 @@
                 available += MultiplyValue(ArrayOfElements[i].Current, i);
                 num1 *= ArrayOfElements[i].Limit;
             }
+
             if (available >= num1) return true;
             return false;
         }
@@ -189,6 +195,7 @@
             if (isSubstractLessAvailable(ref num1))
             {
                 SubstractLessValue(num1, --index);
+                return true;
             }
             return false;
         }
@@ -255,6 +262,19 @@
                 ArrayOfElements[index].Current = Math.Round((ArrayOfElements[index] - num1).Current, sizeOfRound);
                 return true;
             }
+        }
+        /// <summary>
+        /// Returns a string representing the current object
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            string toReturn = "";
+            for (int i = 0; i < ArrayOfElements.Length; i++)
+            {
+                toReturn += $"index: {i} = {ArrayOfElements[i]}\n";
+            }
+            return toReturn;
         }
     }
 }
