@@ -25,26 +25,7 @@
         public bool AllowToOverFlow;
         public static LDouble operator +(LDouble num1, double num2)
         {
-            if (num1.Current + num2 >= num1.Limit)
-            {
-                if (!num1.AllowToOverFlow)
-                {
-                    return new LDouble(num1) { Current = num1.Limit, Limit = num1.Limit };
-                }
-                double limit = num1.Limit;
-                double current = num1.Current + num2 - limit;
-                if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                while (current >= limit)
-                {
-                    current -= limit;
-                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                }
-                return new LDouble(num1) { Current = current, Limit = limit };
-            }
-            else
-            {
-                return new LDouble(num1) { Current = num1.Current + num2 };
-            }
+            return Addition(num1, num2);
         }
         public static LDouble operator +(LDouble num1, LDouble num2)
         {
@@ -233,11 +214,13 @@
         /// </summary>
         /// <param name="num">Value</param>
         /// <returns></returns>
-        public bool IncreaseCurrent(double num)
+        public bool AddValue(double num)
         {
             if (IsOverflow(num))
             {
-                Addition(this, num);
+                LDouble temp = Addition(this, num);
+                Limit = temp.Limit;
+                Current = temp.Current;
                 return true;
             }
             else
@@ -251,11 +234,13 @@
         /// </summary>
         /// <param name="num">Value</param>
         /// <returns></returns>
-        public bool IncreaseCurrent(LDouble num)
+        public bool AddValue(LDouble num)
         {
             if (IsOverflow(num))
             {
-                Addition(this, num);
+                LDouble temp = Addition(this, num);
+                Limit = temp.Limit;
+                Current = temp.Current;
                 return true;
             }
             else

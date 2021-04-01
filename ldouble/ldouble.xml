@@ -51,14 +51,14 @@
             <param name="num2">Second number</param>
             <returns></returns>
         </member>
-        <member name="M:ExtraTypes.LDouble.IncreaseCurrent(System.Double)">
+        <member name="M:ExtraTypes.LDouble.AddValue(System.Double)">
             <summary>
             increase value with return, where "true" is overflow
             </summary>
             <param name="num">Value</param>
             <returns></returns>
         </member>
-        <member name="M:ExtraTypes.LDouble.IncreaseCurrent(ExtraTypes.LDouble)">
+        <member name="M:ExtraTypes.LDouble.AddValue(ExtraTypes.LDouble)">
             <summary>
             increase value with return, where "true" is overflow
             </summary>
