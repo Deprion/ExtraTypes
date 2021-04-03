@@ -9,6 +9,16 @@
              Current array
             </summary>
         </member>
+        <member name="F:ExtraTypes.CLDouble.sizeOfRound">
+            <summary>
+            Length of array - 1
+            </summary>
+        </member>
+        <member name="F:ExtraTypes.CLDouble.LimitSubstract">
+            <summary>
+            Number of decimal places
+            </summary>
+        </member>
         <member name="M:ExtraTypes.CLDouble.#ctor(System.Byte)">
             <summary>
             Instantiate array with given length
@@ -17,6 +27,11 @@
         <member name="M:ExtraTypes.CLDouble.#ctor(ExtraTypes.LDouble[])">
             <summary>
             Instantiate array
+            </summary>
+        </member>
+        <member name="M:ExtraTypes.CLDouble.InitializeArray">
+            <summary>
+            Initialization elements of array
             </summary>
         </member>
         <member name="M:ExtraTypes.CLDouble.AddValueInArray(ExtraTypes.LDouble,System.Int32)">

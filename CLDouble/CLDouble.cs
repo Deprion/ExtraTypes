@@ -8,33 +8,24 @@
         /// Current array
         ///</summary>
         public LDouble[] ArrayOfElements;
-        // Length of array - 1
+        /// <summary>
+        /// Length of array - 1
+        /// </summary>
         private byte sizeOfRound;
-        // Number of decimal places
+        /// <summary>
+        /// Number of decimal places
+        /// </summary>
         private double LimitSubstract;
         /// <summary>
         /// Instantiate array with given length
         /// </summary>
         public CLDouble(byte length)
         {
-            length = length > 6 ? (byte)6 : length = length == 1 ? (byte)2 : length;
+            length = length > 6 ? (byte)6 : length <= 1 ? (byte)2 : length;
             ArrayOfElements = new LDouble[length];
             sizeOfRound = (byte)(length - 1);
             LimitSubstract = 1 / Math.Pow(10, sizeOfRound);
-            for (int i = 0; i < length; i++)
-            {
-                if (i != length - 1)
-                {
-                    //ArrayOfElements[i] = new LDouble();
-                    ArrayOfElements[i].Limit = 10;
-                    ArrayOfElements[i].AllowToOverFlow = true;
-                }
-                else
-                {
-                    //ArrayOfElements[i] = new LDouble();
-                    ArrayOfElements[i].Limit = 10;
-                }
-            }
+            InitializeArray();
         }
         /// <summary>
         /// Instantiate array
@@ -43,16 +34,40 @@
         {
             if (array.Length > 6)
             {
-                Array.Resize(ref array, 6);
-                ArrayOfElements = array;
+                ArrayOfElements = new LDouble[6];
+                Array.Copy(array, ArrayOfElements, 6);
             }
-            else if (array.Length == 1)
+            else if (array.Length < 2)
             {
-                Array.Resize(ref array, 2);
-                ArrayOfElements = array;
+                ArrayOfElements = new LDouble[2];
+                Array.Copy(array, ArrayOfElements, array.Length);
+                if (ArrayOfElements[0] == null) ArrayOfElements[0] = new LDouble(0, 10, false, 0, true);
+                ArrayOfElements[1] = new LDouble(0, 10, false, 0, false);
             }
-            sizeOfRound = (byte)ArrayOfElements.Length;
+            else
+            {
+                ArrayOfElements = new LDouble[array.Length];
+                Array.Copy(array, ArrayOfElements, array.Length);
+            }
+            sizeOfRound = (byte)(ArrayOfElements.Length - 1);
             LimitSubstract = 1 / Math.Pow(10, sizeOfRound);
+        }
+        /// <summary>
+        /// Initialization elements of array
+        /// </summary>
+        private void InitializeArray()
+        {
+            for (int i = 0; i < ArrayOfElements.Length; i++)
+            {
+                if (i != ArrayOfElements.Length - 1)
+                {
+                    ArrayOfElements[i] = new LDouble(0, 10, false, 0, true);
+                }
+                else
+                {
+                    ArrayOfElements[i] = new LDouble(0, 10, false, 0, false);
+                }
+            }
         }
         ///<summary>
         /// Add a value to the array
@@ -134,14 +149,21 @@
                 }
             }
         }
-        private double MultiplyValue(double num1, int index) 
+        private double MultiplyValue(double num, int index) 
         {
             for (int i = index; i > 0; --i)
             {
-                num1 = Math.Round(num1 * ArrayOfElements[i].Limit,
+                num = Math.Round(num * ArrayOfElements[i].Limit,
                     sizeOfRound - (sizeOfRound - i));
             }
-            return num1;
+            return num;
+        }
+        private void IncreaseNumber(ref double num, int index)
+        {
+            for (int i = index; i > 0; --i)
+            {
+                num = Math.Round(num / ArrayOfElements[i].Limit);
+            }
         }
         private void SubstractLessValue(double num1, int index)
         {
@@ -155,7 +177,9 @@
                 }
                 else
                 {
-                    ArrayOfElements[index] -= num1;
+                    IncreaseNumber(ref num1, index);
+                    ArrayOfElements[index].Current = Math.Round
+                        (ArrayOfElements[index].Current - num1, sizeOfRound);
                 }
             }
         }
@@ -167,7 +191,6 @@
                 available += MultiplyValue(ArrayOfElements[i].Current, i);
                 num1 *= ArrayOfElements[i].Limit;
             }
-
             if (available >= num1) return true;
             return false;
         }
@@ -184,10 +207,10 @@
                     ArrayOfElements[index].Current = Math.Round((ArrayOfElements[index] - num1).Current, sizeOfRound);
                     if (ArrayOfElements[index].Current < 1)
                     {
-                        double temp = ArrayOfElements[index].Current;
-                        ArrayOfElements[index].Current = 0;
                         ArrayOfElements[index - 1].Current = Math.Round
-                            ((ArrayOfElements[index - 1] + temp * ArrayOfElements[index].Limit).Current, sizeOfRound);
+                            ((ArrayOfElements[index - 1] + ArrayOfElements[index].Current
+                            * ArrayOfElements[index].Limit).Current, sizeOfRound);
+                        ArrayOfElements[index].Current = 0;
                     }
                     return true;
                 }
