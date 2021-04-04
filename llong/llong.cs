@@ -1,7 +1,7 @@
 ﻿namespace ExtraTypes
 {
     [System.Serializable]
-    public struct LLong
+    public class LLong
     {
         ///<summary>
         /// Current value
@@ -25,49 +25,11 @@
         public bool AllowToOverFlow;
         public static LLong operator +(LLong num1, long num2)
         {
-            if (num1.Current + num2 >= num1.Limit)
-            {
-                if (!num1.AllowToOverFlow)
-                {
-                    return new LLong(num1) { Current = num1.Limit, Limit = num1.Limit };
-                }
-                long limit = num1.Limit;
-                long current = num1.Current + num2 - limit;
-                if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                while (current >= limit)
-                {
-                    current -= limit;
-                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                }
-                return new LLong(num1) { Current = current, Limit = limit };
-            }
-            else
-            {
-                return new LLong(num1) { Current = num1.Current + num2 };
-            }
+            return Addition(num1, num2);
         }
         public static LLong operator +(LLong num1, LLong num2)
         {
-            if (num1.Current + num2.Current >= num1.Limit)
-            {
-                if (!num1.AllowToOverFlow)
-                {
-                    return new LLong(num1) { Current = num1.Limit, Limit = num1.Limit };
-                }
-                long limit = num1.Limit;
-                long current = num1.Current + num2.Current - limit;
-                if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                while (current >= limit)
-                {
-                    current -= limit;
-                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
-                }
-                return new LLong(num1) { Current = current, Limit = limit };
-            }
-            else
-            {
-                return new LLong(num1) { Current = num1.Current + num2.Current };
-            }
+            return Addition(num1, num2);
         }
         public static LLong operator -(LLong num1, long num2)
         {
@@ -227,43 +189,109 @@
         {
             return num1.Current <= num2.Current;
         }
+        /// <summary>
+        /// Returns a string representing the current object.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Current.ToString();
         }
         /// <summary>
+        /// Instead of operator "+"
+        /// </summary>
+        /// <param name="num1">First number</param>
+        /// <param name="num2">Second number</param>
+        /// <returns></returns>
+        private static LLong Addition(LLong num1, long num2)
+        {
+            if (num1.Current + num2 >= num1.Limit)
+            {
+                if (!num1.AllowToOverFlow)
+                {
+                    return new LLong(num1) { Current = num1.Limit, Limit = num1.Limit };
+                }
+                long limit = num1.Limit;
+                long current = num1.Current + num2 - limit;
+                if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
+                while (current >= limit)
+                {
+                    current -= limit;
+                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
+                }
+                return new LLong(num1) { Current = current, Limit = limit };
+            }
+            else
+            {
+                return new LLong(num1) { Current = num1.Current + num2 };
+            }
+        }
+        /// <summary>
+        /// Instead of operator "+"
+        /// </summary>
+        /// <param name="num1">First number</param>
+        /// <param name="num2">Second number</param>
+        /// <returns></returns>
+        private static LLong Addition(LLong num1, LLong num2)
+        {
+            if (num1.Current + num2.Current >= num1.Limit)
+            {
+                if (!num1.AllowToOverFlow)
+                {
+                    return new LLong(num1) { Current = num1.Limit, Limit = num1.Limit };
+                }
+                long limit = num1.Limit;
+                long current = num1.Current + num2.Current - limit;
+                if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
+                while (current >= limit)
+                {
+                    current -= limit;
+                    if (num1.IncreasableAmount != 0) num1.IncreaseLimit(ref limit);
+                }
+                return new LLong(num1) { Current = current, Limit = limit };
+            }
+            else
+            {
+                return new LLong(num1) { Current = num1.Current + num2.Current };
+            }
+        }
+        /// <summary>
         /// increase value with return, where "true" is overflow
         /// </summary>
-        /// <param name="num2">Value</param>
+        /// <param name="num">Value</param>
         /// <returns></returns>
-        public bool IncreaseCurrent(long num2)
+        public bool AddValue(long num)
         {
-            if (AmountOfOverFlow(num2) > 0)
+            if (IsOverflow(num))
             {
-                this += num2;
+                LLong temp = Addition(this, num);
+                Limit = temp.Limit;
+                Current = temp.Current;
                 return true;
             }
             else
             {
-                this += num2;
+                Current += num;
                 return false;
             }
         }
         /// <summary>
         /// increase value with return, where "true" is overflow
         /// </summary>
-        /// <param name="num2">Value</param>
+        /// <param name="num">Value</param>
         /// <returns></returns>
-        public bool IncreaseCurrent(LLong num2)
+        public bool AddValue(LLong num)
         {
-            if (AmountOfOverFlow(num2) > 0)
+            if (IsOverflow(num))
             {
-                this += num2;
+                LLong temp = Addition(this, num);
+                Limit = temp.Limit;
+                Current = temp.Current;
                 return true;
             }
             else
             {
-                this += num2;
+                Current += num.Current;
                 return false;
             }
         }
@@ -480,6 +508,17 @@
                 }
             }
             return toReturn;
+        }
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public LLong()
+        {
+            Limit = 10;
+            Current = 0;
+            IsMultiplicator = false;
+            IncreasableAmount = 0;
+            AllowToOverFlow = true;
         }
         /// <summary>
         /// Standart constructor

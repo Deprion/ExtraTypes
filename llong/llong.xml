@@ -29,18 +29,40 @@
              Allow to lvl up, when limit reached
             </summary>
         </member>
-        <member name="M:ExtraTypes.LLong.IncreaseCurrent(System.Int64)">
+        <member name="M:ExtraTypes.LLong.ToString">
             <summary>
-            increase value with return, where "true" is overflow
+            Returns a string representing the current object.
             </summary>
-            <param name="num2">Value</param>
             <returns></returns>
         </member>
-        <member name="M:ExtraTypes.LLong.IncreaseCurrent(ExtraTypes.LLong)">
+        <member name="M:ExtraTypes.LLong.Addition(ExtraTypes.LLong,System.Int64)">
+            <summary>
+            Instead of operator "+"
+            </summary>
+            <param name="num1">First number</param>
+            <param name="num2">Second number</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LLong.Addition(ExtraTypes.LLong,ExtraTypes.LLong)">
+            <summary>
+            Instead of operator "+"
+            </summary>
+            <param name="num1">First number</param>
+            <param name="num2">Second number</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LLong.AddValue(System.Int64)">
             <summary>
             increase value with return, where "true" is overflow
             </summary>
-            <param name="num2">Value</param>
+            <param name="num">Value</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtraTypes.LLong.AddValue(ExtraTypes.LLong)">
+            <summary>
+            increase value with return, where "true" is overflow
+            </summary>
+            <param name="num">Value</param>
             <returns></returns>
         </member>
         <member name="M:ExtraTypes.LLong.IncreaseLimit(System.Int64@)">
@@ -116,6 +138,11 @@
             Returns the amount of deficit
             </summary>
             <param name="num2">Value</param>
+        </member>
+        <member name="M:ExtraTypes.LLong.#ctor">
+            <summary>
+            Empty constructor
+            </summary>
         </member>
         <member name="M:ExtraTypes.LLong.#ctor(System.Int64,System.Int64)">
             <summary>

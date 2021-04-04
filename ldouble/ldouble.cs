@@ -127,6 +127,14 @@
         {
             return new LDouble(num1 - 1);
         }
+        public static bool operator >(LDouble num1, double num2)
+        {
+            return num1.Current > num2;
+        }
+        public static bool operator <(LDouble num1, double num2)
+        {
+            return num1.Current < num2;
+        }
         public static bool operator >(LDouble num1, LDouble num2)
         {
             return num1.Current > num2.Current;
@@ -134,6 +142,14 @@
         public static bool operator <(LDouble num1, LDouble num2)
         {
             return num1.Current < num2.Current;
+        }
+        public static bool operator >=(LDouble num1, double num2)
+        {
+            return num1.Current >= num2;
+        }
+        public static bool operator <=(LDouble num1, double num2)
+        {
+            return num1.Current <= num2;
         }
         public static bool operator >=(LDouble num1, LDouble num2)
         {
