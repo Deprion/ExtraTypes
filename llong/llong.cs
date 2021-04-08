@@ -35,12 +35,12 @@
         {
             long current = num1.Current - num2;
             long limit = num1.Limit;
+            if (current < 0 && !num1.AllowToOverFlow)
+            {
+                return new LLong(num1) { Current = 0 };
+            }
             while (current < 0)
             {
-                if (!num1.AllowToOverFlow)
-                {
-                    return new LLong(num1) { Current = 0 };
-                }
                 if (num1.IncreasableAmount != 0)
                 {
                     num1.DecreaseLimit(ref limit);
@@ -53,6 +53,10 @@
         {
             long current = num1.Current - num2.Current;
             long limit = num1.Limit;
+            if (current < 0 && !num1.AllowToOverFlow)
+            {
+                return new LLong(num1) { Current = 0 };
+            }
             while (current < 0)
             {
                 if (num1.IncreasableAmount != 0)
