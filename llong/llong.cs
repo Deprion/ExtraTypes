@@ -37,6 +37,10 @@
             long limit = num1.Limit;
             while (current < 0)
             {
+                if (!num1.AllowToOverFlow)
+                {
+                    return new LLong(num1) { Current = 0 };
+                }
                 if (num1.IncreasableAmount != 0)
                 {
                     num1.DecreaseLimit(ref limit);
