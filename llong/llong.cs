@@ -547,15 +547,15 @@
         /// <param name="current">Current</param>
         /// <param name="limit">Limit</param>
         /// <param name="isMultiplicator">IsMultiplicator</param>
-        /// <param name="amount">IncreasableAmount, 0 means don't increase limit</param>
+        /// <param name="increasableAmount">IncreasableAmount, 0 means don't increase the limit</param>
         /// <param name="isOverflow">IsOverflow</param>
         public LLong(long current, long limit, bool isMultiplicator,
-            double amount, bool isOverflow) : this()
+            double increasableAmount, bool isOverflow) : this()
         {
             Limit = limit;
             Current = current;
             IsMultiplicator = isMultiplicator;
-            IncreasableAmount = amount;
+            IncreasableAmount = increasableAmount;
             AllowToOverFlow = isOverflow;
         }
         /// <summary>

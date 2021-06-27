@@ -158,7 +158,7 @@
             <param name="current">Current</param>
             <param name="limit">Limit</param>
             <param name="isMultiplicator">IsMultiplicator</param>
-            <param name="amount">IncreasableAmount, 0 means don't increase limit</param>
+            <param name="amount">IncreasableAmount, 0 means don't increase the limit</param>
             <param name="isOverflow">IsOverflow</param>
         </member>
         <member name="M:ExtraTypes.LLong.#ctor(ExtraTypes.LLong)">
